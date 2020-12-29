@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from.models import Projects,Contact
+from django.core.mail import send_mail
+from django.conf import settings
 
 # Create your views here.
 def home(request):
@@ -13,7 +15,15 @@ def home(request):
         message = request.POST.get('message','')
 
         contact = Contact(full_name=full_name,email=email,message=message)
-        contact.save()
+        # contact.save()
+
+        send_mail(
+            f"Email from {full_name}",
+            f"New Mail From :- {email} \n \n Message :- {message}",
+            settings.EMAIL_HOST_USER,
+            ['adityamuley48@gmail.com'],
+            fail_silently=False
+        )
         
         
 
